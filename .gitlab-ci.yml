@@ -1,0 +1,30 @@
+# Uses node's image
+image: node:12
+
+stages:
+  - dependencies
+  - lint
+  - test
+
+# Install dependencies
+install_dependencies:
+  stage: dependencies
+  script:
+    - yarn install
+  # artifacts are necessary for build on external kubernetes runners
+  # It ensures that the node_modules/ will be passed to future jobs
+  artifacts:
+    paths:
+      - node_modules/
+
+# Runs Lint!
+lint:
+  stage: lint
+  script:
+    - yarn lint
+
+# Runs tests!
+test:
+  stage: test
+  script:
+    - yarn test
